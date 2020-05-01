@@ -1,0 +1,101 @@
+First set up the repo file in - cd /etc/yum.repos.d
+#gedit yum.repos.d and then
+[dvd1]
+baseurl=file:///run/media/root/RHEL-8.0.0-BaseOS-x86/AppStream
+gpgcheck=0
+
+[dvd1]
+baseurl=file:///run/media/root/RHEL-8.0.0-BaseOS-x86/BaseOS
+gpgcheck=0
+Then Come out of gedit after saving it,
+#sudo yum remove docker docker-common docker-selinux docker-engine
+#sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+#sudo yum install docker-ce
+#docker pull centos:7
+#docker pull mysql:5.7
+#docker pull wordpress:5.1.1-php7.3-apache
+#docker run -dit -e WORDPRESS_DB_HOST=dbos -e WORDPRESS_DB_USER=john -e WORDPRESS_DB_PASSWORD=redhat -e WORDPRESS_DB_NAME=mydb -v wp_storage:/var/www/html/ --name wpos -p 8080:80 --link dbos  wordpress:5.4.0-php7.2-apache
+
+#docker run -dit -e MYSQL_ROOT_PASSWORD=RedHat -e MYSQL_USER=john -e MYSQL_PASSWORD=redhat -e MYSQL_DATABASE=mydb -v mysql_storage:/var/lib/mysql --name dbos mysql:5.7
+
+#docker run -d -it -e MYSQL_ROOT_PASSWORD=RedHat -e MYSQL_USER=john -e MYSQL_PASSWORD=redhat -e MYSQL_DATABASE=mydb mysql:5.7
+
+
+# history
+#docker ps
+#docker inspect fc | grep IP
+#which mysql
+-->if not then install mysql and check its version
+#mysql -h 172.17.0.2 -u root -predhat
+#docker ps
+# docker stop fc
+   # docker ps
+#    docker ps -a
+ #   docker rm -f $(docker ps -a -q)
+  #  docker ps
+   # docker ps -a
+  #  docker images
+#docker ps -a
+ #docker images | grep mysql:5.7
+  #docker history mysql:5.7
+# docker inspect ad76 | grep mysql
+ # clear
+ #docker ps -a
+  #docker volume create wp_storage
+  #docker volume ls | grep wp
+  #docker ps
+  #docker ps
+  #docker logs wpos
+ #ifconfig enp0s3
+  #Open browser and type IP:8080 and it's working great
+#docker rm -f $(docker ps -a -q) -->>to delete all container after testing
+  #Now let us deploy our site with docker-compose
+#sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  #sudo chmod +x /usr/local/bin/docker-compose
+   # docker-compose version
+   # clear
+   # mkdir /mycompose
+   # ls
+  # cd /mycompose
+   # ls
+    #clear
+    #vim docker-compose.yml
+-->In this file write the below code
+version: '3'
+
+services:
+  dbos:
+    image: mysql:5.7
+    volumes:
+       - mysql_storage_new:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ReDHat
+      MYSQL_USER: ishwar
+      MYSQL_PASSWORD: redhat
+      MYSQL_DATABASE: mydb
+
+  wordpressos:
+    image: wordpress:5.4.1-php7.4-apache
+    restart: always
+    depends_on:
+      - dbos
+ - dbos
+    ports:
+      - 8081:80
+    environment:
+      WORDPRESS_DB_HOST: dbos
+      WORDPRESS_DB_USER: ishwar
+      WORDPRESS_DB_PASSWORD: redhat
+      WORDPRESS_DB_NAME: mydb
+    volumes:
+      - wp_storage_new:/var/www/html
+volumes:
+   wp_storage_new:
+   mysql_storage_new:
+   docker-compose up
+-->Then open browser and type IP:8081
+-->Now create your wordpress site 
+  567  history
+
+
